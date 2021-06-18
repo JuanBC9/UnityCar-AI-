@@ -244,7 +244,7 @@ MonoBehaviour:
   groundDrag: 5
   fwdSpeed: 150
   revSpeed: 50
-  turnSpeed: 200
+  turnSpeed: 220
   GroundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -306,6 +306,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  numberOfSensors: 9
   createNewData: 0
   datasetName: 
 --- !u!1001 &8973822037072211320
