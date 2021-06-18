@@ -23,6 +23,8 @@ public class CarController : MonoBehaviour
 
     public Rigidbody sphereRB;
 
+    public Sensors sensors;
+
     void Start()
     {
         //detach rigidbody from car
@@ -31,8 +33,8 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        moveInput = Input.GetAxisRaw("Vertical");
-        turnInput = Input.GetAxisRaw("Horizontal");
+        moveInput = 1;
+        turnInput = (float)sensors.CalculateInput();
         moveInput *= moveInput > 0 ? fwdSpeed : revSpeed;
 
         //set cars position to sphere
