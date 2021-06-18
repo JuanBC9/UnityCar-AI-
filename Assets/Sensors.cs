@@ -16,13 +16,15 @@ public class Sensors : MonoBehaviour
 
     RaycastHit raycastHit;
 
+    [Header("Dataset Creation")]
+    public bool createNewData = false;
     string path;
 
     private void Start()
     {
         path = Application.dataPath + "/Data.txt";
 
-        if (!File.Exists(path))
+        if (!File.Exists(path) && createNewData)
         {
             File.WriteAllText(path, "x1 x2 x3 x4 label\n");
         }
