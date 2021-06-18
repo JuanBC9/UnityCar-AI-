@@ -18,6 +18,7 @@ public class Sensors : MonoBehaviour
 
     [Header("Dataset Creation")]
     public bool createNewData = false;
+    public String datasetName = "";
     string path;
 
     private void Start()
@@ -26,7 +27,7 @@ public class Sensors : MonoBehaviour
 
         if (!File.Exists(path) && createNewData)
         {
-            File.WriteAllText(path, "x1 x2 x3 x4 label\n");
+            File.WriteAllText(path, "x1 x2 x3 x4 x5 label\n");
         }
 
         sensorData = new float[5];
