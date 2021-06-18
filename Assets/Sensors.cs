@@ -11,12 +11,15 @@ public class Sensors : MonoBehaviour
 
     public Vector3[] sensorVectors;
 
+    private Vector3[] endPoints;
+
     RaycastHit raycastHit;
 
     private void Start()
     {
         sensorData = new float[5];
         sensorVectors = new Vector3[5];
+        endPoints = new Vector3[5];
         UpdateVectors();
     }
 
@@ -50,14 +53,16 @@ public class Sensors : MonoBehaviour
             {
                 sensorData[i] = maxSensorDist;
             }
+
+            endPoints[i] = raycastHit.point;
         }
     }
 
     private void DrawSensors()
     {
-        foreach (Vector3 vector in sensorVectors)
+        for (int i = 0; i < endPoints.Length; i++)
         {
-            Debug.DrawRay(this.transform.position, this.transform.forward, Color.red);
+            Debug.DrawLine(this.transform.position, endPoints[i], Color.red);
         }
     }
 
