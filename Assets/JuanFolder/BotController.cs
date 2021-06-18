@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class BotController : MonoBehaviour
 {
     //fix rotation of car
     //fix gravity of car
@@ -33,15 +33,15 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        moveInput = Input.GetAxisRaw("Vertical");
-        turnInput = Input.GetAxisRaw("Horizontal");
+        moveInput = 1;
+        turnInput = (float)sensors.CalculateInput();
         moveInput *= moveInput > 0 ? fwdSpeed : revSpeed;
 
         //set cars position to sphere
         transform.position = sphereRB.transform.position;
 
         //set cars rotation
-        float newRotation = turnInput * turnSpeed * Time.deltaTime * Input.GetAxisRaw("Vertical");
+        float newRotation = turnInput * turnSpeed * Time.deltaTime * 1;
         transform.Rotate(0, newRotation, 0, Space.World);
 
         // raycast ground check

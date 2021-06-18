@@ -56,25 +56,13 @@ public class Sensors : MonoBehaviour
             str += data + " ";
         }
 
-        if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.LeftArrow))
-        {
-            str += "STEER_LEFT";
-        }
-        else if (Input.GetKey(KeyCode.D) | Input.GetKey(KeyCode.RightArrow))
-        {
-            str += "STEER_RIGHT";
-        } else 
-        {
-            str += "NO_STEERING";
-        }
+        str += Input.GetAxisRaw("Horizontal");
 
         if (File.Exists(path))
         {
             str += "\n";
             File.AppendAllText(path, str);
         }
-
-        Debug.Log(str);
     }
 
     private void GetSensorData()
@@ -133,6 +121,8 @@ public class Sensors : MonoBehaviour
                     + 0.0000014809149881643422 * Math.Pow(sensorData[4], 3);
 
         double pred = t0 + c1 + c2 + c3;
+
+        Debug.Log(pred);
 
         return pred;
     }
