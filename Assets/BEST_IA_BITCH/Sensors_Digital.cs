@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Sensors_Digital : MonoBehaviour
 {
-    public float maxSensorDist = 50;
+    public float maxSensorDist = 100;
 
     public float[] sensorData;
 
@@ -22,7 +22,7 @@ public class Sensors_Digital : MonoBehaviour
 
     private void Start()
     {
-        path = Application.dataPath + "/" + datasetName + ".txt";
+        path = Application.dataPath + "/BEST_IA_BITCH" + datasetName + ".txt";
         
         if (!File.Exists(path) && createNewData)
         {
