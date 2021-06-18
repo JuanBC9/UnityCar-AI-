@@ -12,6 +12,8 @@ public class Sensors : MonoBehaviour
 
     public Vector3[] sensorVectors;
 
+    public int numberOfSensors;
+
     private Vector3[] endPoints;
 
     RaycastHit raycastHit;
@@ -27,12 +29,12 @@ public class Sensors : MonoBehaviour
 
         if (!File.Exists(path) && createNewData)
         {
-            File.WriteAllText(path, "x1 x2 x3 x4 x5 label\n");
+            File.WriteAllText(path, "x1 x2 x3 x4 x5 x6 x7 x8 x9 y\n");
         }
 
-        sensorData = new float[5];
-        sensorVectors = new Vector3[5];
-        endPoints = new Vector3[5];
+        sensorData = new float[numberOfSensors];
+        sensorVectors = new Vector3[numberOfSensors];
+        endPoints = new Vector3[numberOfSensors];
         UpdateVectors();
     }
 
@@ -91,11 +93,16 @@ public class Sensors : MonoBehaviour
 
     private void UpdateVectors()
     {
-        sensorVectors[0] = Quaternion.AngleAxis(-20f, Vector3.up) * transform.forward;
-        sensorVectors[1] = Quaternion.AngleAxis(-10f, Vector3.up) * transform.forward;
-        sensorVectors[2] = transform.forward;
-        sensorVectors[3] = Quaternion.AngleAxis(10f, Vector3.up) * transform.forward;
-        sensorVectors[4] = Quaternion.AngleAxis(20f, Vector3.up) * transform.forward;
+        sensorVectors[0] = Quaternion.AngleAxis(-90f, Vector3.up) * transform.forward;
+        sensorVectors[1] = Quaternion.AngleAxis(-45f, Vector3.up) * transform.forward;
+        sensorVectors[2] = Quaternion.AngleAxis(-20f, Vector3.up) * transform.forward;
+        sensorVectors[3] = Quaternion.AngleAxis(-10f, Vector3.up) * transform.forward;
+        sensorVectors[4] = transform.forward;
+        sensorVectors[5] = Quaternion.AngleAxis(10f, Vector3.up) * transform.forward;
+        sensorVectors[6] = Quaternion.AngleAxis(20f, Vector3.up) * transform.forward;
+        sensorVectors[7] = Quaternion.AngleAxis(45f, Vector3.up) * transform.forward;
+        sensorVectors[8] = Quaternion.AngleAxis(90f, Vector3.up) * transform.forward;
+
     }
 
     public double CalculateInput()
