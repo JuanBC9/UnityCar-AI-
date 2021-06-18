@@ -22,7 +22,7 @@ public class Sensors_Digital : MonoBehaviour
 
     private void Start()
     {
-        path = Application.dataPath + "/BEST_IA_BITCH" + datasetName + ".txt";
+        path = Application.dataPath + "/BEST_IA_BITCH/" + datasetName + ".txt";
         
         if (!File.Exists(path) && createNewData)
         {

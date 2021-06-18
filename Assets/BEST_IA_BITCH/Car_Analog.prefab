@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29dcf6c5adf51f449a9307d6a95c8707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSensorDist: 50
+  maxSensorDist: 100
   sensorData: []
   sensorVectors: []
   createNewData: 1
@@ -197,6 +197,7 @@ MonoBehaviour:
     m_Bits: 256
   sphereRB: {fileID: 5734155532529591436}
   sensors: {fileID: 5191703302187304235}
+  manualDrive: 0
 --- !u!1 &5734155532529591437
 GameObject:
   m_ObjectHideFlags: 0
