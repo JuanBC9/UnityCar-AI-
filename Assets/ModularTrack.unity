@@ -1039,7 +1039,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &666719684
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4109,7 +4109,7 @@ PrefabInstance:
     - target: {fileID: 7000179859898951725, guid: 89e9d8f039f5a5a428a0245d12245f77,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89e9d8f039f5a5a428a0245d12245f77, type: 3}
@@ -4310,6 +4310,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car_Analog
+      objectReference: {fileID: 0}
+    - target: {fileID: 5734155532042131821, guid: 7128fd8755c9a1a4587e6fa7254328f1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7128fd8755c9a1a4587e6fa7254328f1, type: 3}
