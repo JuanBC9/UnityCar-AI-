@@ -9,10 +9,10 @@ class PolynomialRegression:
         self.regr = linear_model.LinearRegression()
         self.dataset = pd.read_csv(Data, sep=" ")
 
-        self.y = dataset.iloc[:,-1:].values
-        XValues = dataset.iloc[:,0:-1].values
+        self.y = self.dataset.iloc[:,-1:].values
+        XValues = self.dataset.iloc[:,0:-1].values
         
-        newX = np.zeros(XValues.shape)
+        newX = XValues.copy()
 
         for i in range(2, self.degree + 1):
             newX = np.concatenate((newX, XValues**i), axis = 1)
@@ -21,7 +21,7 @@ class PolynomialRegression:
 
 
     def train_Model(self):
-        self.regr.fit(self.X, y)
+        self.regr.fit(self.X, self.y)
     
 
     def predict(self, x):
@@ -41,7 +41,7 @@ data = 'Data.txt'
 maxScore = -1
 bestDegree = 0
 
-for i in range(0, 15):
+for i in range(1, 15):
 	model = PolynomialRegression(i, data)
 	model.train_Model()
 	score = model.score()
@@ -50,13 +50,21 @@ for i in range(0, 15):
 		maxScore = score
 		bestDegree = i
 
+print(bestDegree)
+print(maxScore)
+
 model = PolynomialRegression(bestDegree, data)
 model.train_Model()
 
 out = ""
-out += model.regr.intercept_
-out
+out = out + str(model.regr.intercept_[0])
+aux = 0
 
+for d in range(1, bestDegree + 1):
+    for i in range(0, 15):
+        out = out + " + " + str(model.regr.coef_[0][aux]) + " * Math.Pow(sensorData[" + str(i) + "], " + str(d) + ")"
+        aux += 1
 
-
-f = open("model.cs", "a")
+f = open("model.txt", "w")
+f.write(out)
+f.close
