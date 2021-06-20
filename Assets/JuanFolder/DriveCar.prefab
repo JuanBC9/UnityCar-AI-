@@ -144,7 +144,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
-  createNewData: 0
+  createNewData: 1
   datasetName: /JuanFolder/Data.txt
 --- !u!1 &7000179859417519565
 GameObject:
