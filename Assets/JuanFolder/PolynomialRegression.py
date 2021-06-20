@@ -9,6 +9,7 @@ class PolynomialRegression:
         self.regr = linear_model.LinearRegression()
         self.dataset = pd.read_csv(Data, sep=" ")
 
+        self.y = dataset.iloc[:,-1:].values
         XValues = dataset.iloc[:,0:-1].values
         
         newX = np.zeros(XValues.shape)
@@ -18,7 +19,6 @@ class PolynomialRegression:
 
         self.X = newX
 
-        self.y = dataset.iloc[:,-1:].values
 
     def train_Model(self):
         self.regr.fit(self.X, y)
@@ -35,3 +35,28 @@ class PolynomialRegression:
 
     def score(self):
         return self.regr.score(self.X, self.y)
+
+
+data = 'Data.txt'
+maxScore = -1
+bestDegree = 0
+
+for i in range(0, 15):
+	model = PolynomialRegression(i, data)
+	model.train_Model()
+	score = model.score()
+
+	if(score > maxScore):
+		maxScore = score
+		bestDegree = i
+
+model = PolynomialRegression(bestDegree, data)
+model.train_Model()
+
+out = ""
+out += model.regr.intercept_
+out
+
+
+
+f = open("model.cs", "a")
