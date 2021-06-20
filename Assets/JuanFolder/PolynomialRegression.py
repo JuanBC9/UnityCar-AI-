@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn import linear_model
 
@@ -36,21 +35,3 @@ class PolynomialRegression:
 
     def score(self):
         return self.regr.score(self.X, self.y)
-
-data = 'Data.txt'
-maxScore = -1
-bestDegree = 0
-
-for i in range(0, 15):
-    model = PolynomialRegression(i, data)
-    model.train_Model()
-    score = model.score()
-
-    if(score > maxScore):
-        maxScore = score
-        bestDegree = i
-    
-print(bestDegree)
-print(maxScore)
-
-
