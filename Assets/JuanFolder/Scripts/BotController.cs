@@ -24,6 +24,7 @@ public class BotController : MonoBehaviour
     public Rigidbody sphereRB;
 
     public Sensors sensors;
+    public Gen gen;
 
     void Start()
     {
@@ -34,7 +35,7 @@ public class BotController : MonoBehaviour
     void Update()
     {
         moveInput = 1;
-        turnInput = (float)sensors.CalculateInput();
+        turnInput = (float)gen.CalculateInput(sensors.getData());
         moveInput *= moveInput > 0 ? fwdSpeed : revSpeed;
 
         //set cars position to sphere

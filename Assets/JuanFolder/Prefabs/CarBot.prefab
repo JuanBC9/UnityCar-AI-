@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 8973822035391982974}
   - component: {fileID: 8973822035391982975}
   - component: {fileID: 8973822035391982960}
-  m_Layer: 0
+  - component: {fileID: 3525963893597990613}
+  m_Layer: 9
   m_Name: MotorSphere
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,6 +111,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &3525963893597990613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8973822035391982961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab375271d48f94409e18454c201c9be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weightsSize: 16
+  weights: []
+  CPs: 0
 --- !u!1 &8973822035984552081
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,9 +136,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8973822035984552095}
   - component: {fileID: 8973822035984552094}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CarBot
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -158,14 +174,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airDrag: 1
   groundDrag: 5
-  fwdSpeed: 150
+  fwdSpeed: 500
   revSpeed: 50
-  turnSpeed: 200
+  turnSpeed: 1000
   GroundLayer:
     serializedVersion: 2
     m_Bits: 256
   sphereRB: {fileID: 8973822035391982960}
   sensors: {fileID: 8973822037202965458}
+  gen: {fileID: 3525963893597990613}
 --- !u!1 &8973822037202965460
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8973822037202965459}
   - component: {fileID: 8973822037202965458}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sensors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,7 +245,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   createNewData: 0
-  datasetName: /JuanFolder/Data.txt
+  datasetName: /JuanFolder/NewData.txt
 --- !u!1001 &8973822037072211320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -236,9 +253,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8973822035984552095}
     m_Modifications:
+    - target: {fileID: 100000, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
       propertyPath: m_Name
       value: Car_5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_TagString
+      value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 100012, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c61c10b6f730c364ab118d444bf533ea, type: 3}
       propertyPath: m_RootOrder
