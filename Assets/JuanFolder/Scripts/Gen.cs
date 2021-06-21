@@ -9,8 +9,6 @@ public class Gen : MonoBehaviour
     public double[] weights;
     private double fitness;
     public int CPs;
-    public double time;
-
     private void Start()
     {
         CPs = 0;
@@ -42,10 +40,7 @@ public class Gen : MonoBehaviour
 
     internal double getFitness()
     {
-        if (CPs > 0)
-        {
-            fitness = CPs / time;
-        }
+        fitness = CPs;
         return fitness;
     }
 

@@ -13,6 +13,7 @@ public class CheckPoint : MonoBehaviour
     {
         CPBuffer = new List<GameObject>();
     }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag.Equals("Car") && !CPBuffer.Contains(other.gameObject))

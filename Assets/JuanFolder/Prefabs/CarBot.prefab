@@ -126,6 +126,7 @@ MonoBehaviour:
   weightsSize: 16
   weights: []
   CPs: 0
+  time: 0
 --- !u!1 &8973822035984552081
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,9 +175,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airDrag: 1
   groundDrag: 5
-  fwdSpeed: 500
+  fwdSpeed: 150
   revSpeed: 50
-  turnSpeed: 1000
+  turnSpeed: 200
   GroundLayer:
     serializedVersion: 2
     m_Bits: 256

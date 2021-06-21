@@ -13,7 +13,7 @@ public class GeneticAlgorithm : MonoBehaviour
     private static int solutionSize = 16;
 
     private double[] FirstPopulationSolution = {
-    1.1529200652074178E-4,
+    0.00011529200652074178,
     0.14399022224954028,
     -0.17760787035044975,
     -0.1261946864383615,
@@ -78,7 +78,8 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             for (int j = 0; j < solutionSize; j++)
             {
-                solution[j] = FirstPopulationSolution[j] + Random.Range(-0.01f, 0.01f);
+                //solution[j] = FirstPopulationSolution[j] + Random.Range(-0.01f, 0.01f);
+                solution[j] = Random.Range(-0.01f, 0.01f);
             }
 
             solutions[i] = (double[])solution.Clone();
@@ -86,7 +87,6 @@ public class GeneticAlgorithm : MonoBehaviour
             GenPrefabPopulation[i] = Instantiate(GenPrefab, Vector3.up, Quaternion.identity);
             GenPrefabPopulation[i].SetActive(false);
             GenPrefabPopulation[i].GetComponent<BotController>().gen.setWeights(solution);
-            GenPrefabPopulation[i].GetComponent<BotController>().gen.time = generationTime;
         }
 
         for (int i = 0; i < populationSize; i++)
@@ -165,12 +165,6 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             Debug.Log("Generation_Start");
 
-            for (int i = 0; i < populationSize; i++)
-            {
-                printSolution(solutions[i]);
-            }
-
-
             //Select Parents
             int[] bestParentsIndex = getBestParents();
 
@@ -214,9 +208,14 @@ public class GeneticAlgorithm : MonoBehaviour
             Debug.Log("GenerationFinished");
 
             //Swap some of the existing solutions with some of the better children
-            /*List<double[]> newSolutions = new List<double[]>(populationSize);
+            List<double[]> newSolutions = new List<double[]>(populationSize);
             List<double> newFitneses = new List<double>(populationSize);
-
+            for (int i = 0; i < populationSize; i++)
+            {
+                newSolutions.Add(new double[solutionSize]);
+                newFitneses.Add(0);
+            }
+            
             for (int i = 0; i < populationSize; i++)
             {
                 double[] bestSolution = null;
@@ -224,25 +223,27 @@ public class GeneticAlgorithm : MonoBehaviour
 
                 for (int j = 0; j < populationSize; j++)
                 {
-                    if (childFitneses[j] > bestFitness && !newSolutions.Contains(childSolutions[i]))
+                    if (childFitneses[j] > bestFit && !newSolutions.Contains(childSolutions[i]))
                     {
                         bestSolution = childSolutions[i];
                         bestFit = childFitneses[j];
                     }
 
-                    if (fitneses[j] > bestFitness && !newSolutions.Contains(solutions[i]))
+                    if (fitneses[j] > bestFit && !newSolutions.Contains(solutions[i]))
                     {
                         bestSolution = childSolutions[i];
                         bestFit = childFitneses[j];
                     }
                 }
 
-                newFitneses.Add(bestFit);
-                newSolutions.Add(bestSolution);
-            }*/
+                newFitneses[i] = bestFit;
+                newSolutions[i] = bestSolution;
+            }
 
-            solutions = childSolutions;
-            fitneses = childFitneses;
+            solutions = newSolutions;
+            fitneses = newFitneses;
+
+            //////////
 
             double bestNewFitness = -1;
             double[] bestNewSolution = null;
@@ -271,7 +272,6 @@ public class GeneticAlgorithm : MonoBehaviour
             GenPrefabPopulation[i] = Instantiate(GenPrefab, Vector3.up, Quaternion.identity);
             GenPrefabPopulation[i].SetActive(false);
             GenPrefabPopulation[i].GetComponent<BotController>().gen.setWeights(childSolutions[i]);
-            GenPrefabPopulation[i].GetComponent<BotController>().gen.time = generationTime;
         }
 
         for (int i = 0; i < populationSize; i++)
