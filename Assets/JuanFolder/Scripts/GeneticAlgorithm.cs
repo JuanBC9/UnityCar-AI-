@@ -205,7 +205,6 @@ public class GeneticAlgorithm : MonoBehaviour
             //Evaluate Children
             Debug.Log("StartNewGeneration");
             yield return RunGeneration();
-            Debug.Log("GenerationFinished");
 
             //Swap some of the existing solutions with some of the better children
             List<double[]> newSolutions = new List<double[]>(populationSize);
@@ -244,6 +243,7 @@ public class GeneticAlgorithm : MonoBehaviour
             fitneses = newFitneses;
 
             //////////
+            printSolution(solutions[0]);
 
             double bestNewFitness = -1;
             double[] bestNewSolution = null;
@@ -263,6 +263,8 @@ public class GeneticAlgorithm : MonoBehaviour
            
             //Repeat until the termintion criterion is met
         } while (targetFitness > bestFitness);
+        
+        printSolution(bestSolution);
     }
 
     IEnumerator RunGeneration()
@@ -294,7 +296,5 @@ public class GeneticAlgorithm : MonoBehaviour
                 Destroy(MotorSphere);
             }
         }
-
-        Debug.Log("GenerationFinishing");
     }
 }

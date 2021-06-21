@@ -126,7 +126,6 @@ MonoBehaviour:
   weightsSize: 16
   weights: []
   CPs: 0
-  time: 0
 --- !u!1 &8973822035984552081
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +230,7 @@ MonoBehaviour:
   numberOfSensors: 15
   layerMask:
     serializedVersion: 2
-    m_Bits: 257
+    m_Bits: 2304
   maxVectorAngle: 90
   sensorData:
   - 0

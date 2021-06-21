@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 33000010182312322}
   - component: {fileID: 23000012898970730}
   - component: {fileID: 64000012241874378}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MT_Fence_IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 33000013825502170}
   - component: {fileID: 23000013515449226}
   - component: {fileID: 64000011898105174}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MT_Fence_OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}

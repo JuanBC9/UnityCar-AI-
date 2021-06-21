@@ -40,7 +40,7 @@ public class Gen : MonoBehaviour
 
     internal double getFitness()
     {
-        fitness = CPs;
+        fitness += CPs;
         return fitness;
     }
 
@@ -54,5 +54,15 @@ public class Gen : MonoBehaviour
     public void addCP()
     {
         CPs++;
+    }
+
+    //TODO PENALIZAR POR CHOCARSE CONTRA LOS BORDES
+    private void OnCollisionEnter(Collision other) {
+        
+        if (other.collider.tag.Equals("Car"))
+        {
+            Debug.Log("AUCH");
+            //fitness--;
+        }
     }
 }
