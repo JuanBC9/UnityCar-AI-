@@ -7,7 +7,7 @@ public class Gen : MonoBehaviour
 {
     public int weightsSize = 16;
     public double[] weights;
-    private double fitness;
+    public double fitness;
     public int CPs;
     private void Start()
     {
@@ -56,13 +56,11 @@ public class Gen : MonoBehaviour
         CPs++;
     }
 
-    //TODO PENALIZAR POR CHOCARSE CONTRA LOS BORDES
     private void OnCollisionEnter(Collision other) {
-        
-        if (other.collider.tag.Equals("Car"))
+
+        if (other.collider.tag.Equals("Wall"))
         {
-            Debug.Log("AUCH");
-            //fitness--;
+            fitness--;
         }
     }
 }

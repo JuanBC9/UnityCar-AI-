@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 64000012241874378}
   m_Layer: 11
   m_Name: MT_Fence_IN
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 64000011898105174}
   m_Layer: 11
   m_Name: MT_Fence_OUT
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

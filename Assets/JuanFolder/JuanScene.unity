@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1112,9 +1112,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GenPrefab: {fileID: 8973822035984552081, guid: 976bf41c23c7f6144b8ff0127da47921,
     type: 3}
-  populationSize: 2
-  generationTime: 15
-  targetFitness: 7
+  populationSize: 40
+  generationTime: 30
+  targetFitness: 14
   mutationRate: 0.01
 --- !u!1 &1219360486
 GameObject:
@@ -1824,6 +1824,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1219360487}
     m_Modifications:
+    - target: {fileID: 1000011653049774, guid: fe3154df87e2c402992c615a728b6d24, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000012397960594, guid: fe3154df87e2c402992c615a728b6d24, type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 1000013244734444, guid: fe3154df87e2c402992c615a728b6d24, type: 3}
       propertyPath: m_Name
       value: MT_Turn (1)

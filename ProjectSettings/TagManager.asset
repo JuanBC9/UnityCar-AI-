@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CP
   - Car
+  - Wall
   layers:
   - Default
   - TransparentFX
