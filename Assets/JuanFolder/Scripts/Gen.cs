@@ -3,16 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gen : MonoBehaviour
+public class Gen
 {
-    public int weightsSize = 16;
     public double[] weights;
     public double fitness;
-    public int CPs;
-    private void Start()
-    {
-        CPs = 0;
-        fitness = 0;
+
+    public Gen(double[] solucion) {
+
+        weights = (double[]) solucion.Clone();
+        fitness = Mathf.NegativeInfinity;
+    }
+
+    public Gen(double[] solucion, double newFitness) {
+
+        weights = (double[]) solucion.Clone();
+        fitness = newFitness;
     }
 
     public double CalculateInput(double[] data)
@@ -21,7 +26,7 @@ public class Gen : MonoBehaviour
         int dataIndex = 0;
         int currentDegree = 1;
 
-        for (int i = 0; i < weightsSize - 1; i++)
+        for (int i = 0; i < weights.Length - 1; i++)
         {
             pred += weights[i] * Math.Pow(data[dataIndex], currentDegree);
 
@@ -38,29 +43,13 @@ public class Gen : MonoBehaviour
         return pred;
     }
 
-    internal double getFitness()
+    public double getFitness()
     {
-        fitness += CPs;
         return fitness;
     }
 
-    public void setWeights(double[] newWeights)
+    public void addFitness(int value)
     {
-        weights = new double[newWeights.Length];
-
-        weights = (double[]) newWeights.Clone();
-    }
-
-    public void addCP()
-    {
-        CPs++;
-    }
-
-    private void OnCollisionEnter(Collision other) {
-
-        if (other.collider.tag.Equals("Wall"))
-        {
-            fitness--;
-        }
+        fitness+=value;
     }
 }

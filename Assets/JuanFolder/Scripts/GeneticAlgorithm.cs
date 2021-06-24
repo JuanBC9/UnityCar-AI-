@@ -4,145 +4,63 @@ using UnityEngine;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
-    public GameObject GenPrefab;
+    [Header("Genetic Settings")]
     public int populationSize = 10;
     public int generationTime = 20;
     public float targetFitness = 20;
-    public float mutationRate = .5f;
+    public float mutationRate = .01f;
+    public float parentSelectionRate = .5f;
+    public GameObject prefab;
 
+    private List<GameObject> prefabList;
     private static int solutionSize = 16;
 
-    private double[] FirstPopulationSolution = {
-    0.00011529200652074178,
-    0.14399022224954028,
-    -0.17760787035044975,
-    -0.1261946864383615,
-    0.10873645116524869,
-    -0.10252068826841217,
-    0.04422447736431941,
-    0.01241326604397893,
-    -0.012550330622690235,
-    0.00950295599825631,
-    -0.004470662265458513,
-    0.007148653003135345,
-    -0.004038385647423428,
-    0.003776639132027863,
-    -0.0016006402572690756,
-    0.4832718374292429
-    };
-    private GameObject[] GenPrefabPopulation;
+    private List<Gen> solutionsList;
+    private List<Gen> childSolutionsList;
+    private Gen bestSolution;
 
-    private List<double[]> solutions;
-    private List<double> fitneses;
-
-    List<double[]> childSolutions;  
-    List<double> childFitneses;
-
-    private double[] bestSolution;
-    private double bestFitness;
-
+    //Inicializar Variables
     public void Start()
     {
-        GenPrefabPopulation = new GameObject[populationSize];
-
-        solutions = new List<double[]>(populationSize);
-        fitneses = new List<double>(populationSize);
+        prefabList = new List<GameObject>(populationSize);
         for (int i = 0; i < populationSize; i++)
         {
-            solutions.Add(new double[solutionSize]);
-            fitneses.Add(0);
-        }
-
-        childSolutions = new List<double[]>(populationSize);
-        childFitneses = new List<double>(populationSize);
-        for (int i = 0; i < populationSize; i++)
-        {
-            childSolutions.Add(new double[solutionSize]);
-            childFitneses.Add(0);
+            prefabList.Add(new GameObject());
         }
         
-        
-        bestSolution = new double[solutionSize];
-        bestFitness = 0;
+        solutionsList = new List<Gen>(populationSize);
 
-        Debug.Log("Start Genetic");
-        StartCoroutine("StartGen");
-    }
-
-    IEnumerator StartGen()
-    {
-        double[] solution = new double[solutionSize];
-
-        //Create Random population of solutions
+        childSolutionsList = new List<Gen>(populationSize);
         for (int i = 0; i < populationSize; i++)
         {
-            for (int j = 0; j < solutionSize; j++)
-            {
-                //solution[j] = FirstPopulationSolution[j] + Random.Range(-0.01f, 0.01f);
-                solution[j] = Random.Range(-0.01f, 0.01f);
-            }
-
-            solutions[i] = (double[])solution.Clone();
-
-            GenPrefabPopulation[i] = Instantiate(GenPrefab, Vector3.up, Quaternion.identity);
-            GenPrefabPopulation[i].SetActive(false);
-            GenPrefabPopulation[i].GetComponent<BotController>().gen.setWeights(solution);
+            childSolutionsList.Add(new Gen(new double[solutionSize]));
         }
 
-        for (int i = 0; i < populationSize; i++)
-        {
-            GenPrefabPopulation[i].SetActive(true);
-        }
-
-        yield return new WaitForSeconds(generationTime);
-
-        for (int i = 0; i < populationSize; i++)
-        {
-            //Get fitnesses
-            fitneses[i] = GenPrefabPopulation[i].GetComponent<BotController>().gen.getFitness();
-            Destroy(GenPrefabPopulation[i]);
-
-            //Clean up Scene
-            GameObject MotorSphere = FindObjectsOfType<Rigidbody>()[i].gameObject;
-            if (MotorSphere.name == "MotorSphere")
-            {
-                Destroy(MotorSphere);
-            }
-        }
+        bestSolution = new Gen(new double[solutionSize]);
 
         StartCoroutine("GeneticAlg");
     }
 
-    private int[] getBestParents()
+    private Gen[] getBestParents(List<Gen> gens)
     {
-        int[] ret = new int[2];
+        Gen[] ret = new Gen[2];
 
-        double bestFitness = -2;
-        double bestFitness_2 = -1;
-
-        int bestParentIndex = -1;
-        int bestParentIndex_2 = -1;
+        double bestFitness = Mathf.NegativeInfinity;
+        double bestFitness_2 = Mathf.NegativeInfinity;
 
         for (int i = 0; i < populationSize; i++)
         {
-            if (fitneses[i] > bestFitness)
+            if (gens[i].fitness >= bestFitness)
             {
-                bestFitness = fitneses[i];
-                bestParentIndex = i;
+                bestFitness = gens[i].fitness;
+                ret[0] = gens[i];
+            
+            } else if (gens[i].fitness >= bestFitness_2 && gens[i] != ret[0])
+            {
+                bestFitness_2 = gens[i].fitness;
+                ret[1] = gens[i];
             }
         }
-
-        for (int i = 0; i < populationSize; i++)
-        {
-            if (fitneses[i] > bestFitness_2 && i != bestParentIndex)
-            {
-                bestFitness_2 = fitneses[i];
-                bestParentIndex_2 = i;
-            }
-        }
-
-        ret[0] = bestParentIndex;
-        ret[1] = bestParentIndex_2;
 
         return ret;
     }
@@ -161,140 +79,141 @@ public class GeneticAlgorithm : MonoBehaviour
 
     IEnumerator GeneticAlg()
     {
+        double[] random;
+
+        Debug.Log("Creating Random Solutions...");
+        //Create Random population of solutions
+        for (int i = 0; i < populationSize; i++)
+        {
+            random = new double[solutionSize];
+            //Create Random Solution
+            for (int j = 0; j < solutionSize; j++)
+            {
+                random[j] = Random.Range(-0.01f, 0.01f);
+            }
+
+            //Asign Random Solution to Gen
+            solutionsList.Add(new Gen(random));
+        }
+
+        Debug.Log("Testing Solutions...");
+        //Test Solutions
+        yield return StartCoroutine(runGeneration(solutionsList)); 
+
         do
         {
-            Debug.Log("Generation_Start");
-
             //Select Parents
-            int[] bestParentsIndex = getBestParents();
+            Gen[] bestParents = getBestParents(solutionsList);
 
-            double[] bestParent = solutions[bestParentsIndex[0]];
-            double[] bestParent_2 = solutions[bestParentsIndex[1]];
-
-            Debug.Log("Best Parent = " + bestParentsIndex[0]);
-            Debug.Log("Best Parent_2 = " + bestParentsIndex[1]);
-
+            Debug.Log("Creating Child Solutions...");
             //Create child solutions
+            double[] childSol;
+
             for (int i = 0; i < populationSize; i++)
             {
-                for (int j = 0; j < solutionSize/2; j++)
+                
+                //Create child solution
+                childSol = new double[solutionSize];
+
+                for (int j = 0; j < solutionSize; j++)
                 {
-                    if (Random.Range(0, 1) < mutationRate)
+                    if (Random.Range(0f, 1f) < parentSelectionRate)
                     {
-                        childSolutions[i][j] = bestParent[j] + Random.Range(-.01f, .01f);
-                    }
-                    else
-                    {
-                        childSolutions[i][j] = bestParent[j];
+                        //Mejor Padre
+                        if (Random.Range(0f, 1f) < mutationRate)
+                        {
+
+                            childSol[j] = bestParents[0].weights[j] + Random.Range(-.01f, .01f);
+                        }
+                        else
+                        {
+                            childSol[j] = bestParents[0].weights[j];
+                        }
+
+                    } else {
+                        
+                        //Segundo Mejor Padre
+                        if (Random.Range(0f, 1f) < mutationRate)
+                        {
+
+                            childSol[j] = bestParents[1].weights[j] + Random.Range(-.01f, .01f);
+                        }
+                        else
+                        {
+                            childSol[j] = bestParents[1].weights[j];
+                        }
                     }
                 }
 
-                for (int j = solutionSize/2; j < solutionSize; j++)
-                {
-                    if (Random.Range(0, 1) < mutationRate)
-                    {
-                        childSolutions[i][j] = bestParent_2[j] + Random.Range(-.01f, .01f);
-                    }
-                    else
-                    {
-                        childSolutions[i][j] = bestParent_2[j];
-                    }
-                }
+                //Asign Child solution to Gen
+                childSolutionsList[i] = new Gen(childSol);
             }
-
+            
+            Debug.Log("Evaluating Child Solutions...");
             //Evaluate Children
-            Debug.Log("StartNewGeneration");
-            yield return RunGeneration();
+            yield return StartCoroutine(runGeneration(childSolutionsList)); 
 
+            Debug.Log("Creating New Solutions...");
             //Swap some of the existing solutions with some of the better children
-            List<double[]> newSolutions = new List<double[]>(populationSize);
-            List<double> newFitneses = new List<double>(populationSize);
-            for (int i = 0; i < populationSize; i++)
-            {
-                newSolutions.Add(new double[solutionSize]);
-                newFitneses.Add(0);
-            }
+            List<Gen> newSolutionsList = new List<Gen>(populationSize);            
+            Gen bestSol;
             
             for (int i = 0; i < populationSize; i++)
             {
-                double[] bestSolution = null;
-                double bestFit = -1;
+                //Get Best Solution
+                bestSol = new Gen(new double[solutionSize]);
 
                 for (int j = 0; j < populationSize; j++)
                 {
-                    if (childFitneses[j] > bestFit && !newSolutions.Contains(childSolutions[i]))
+                    if (childSolutionsList[j].fitness > bestSol.fitness && !newSolutionsList.Contains(childSolutionsList[j]))
                     {
-                        bestSolution = childSolutions[i];
-                        bestFit = childFitneses[j];
+                        bestSol = childSolutionsList[j];
                     }
 
-                    if (fitneses[j] > bestFit && !newSolutions.Contains(solutions[i]))
+                    if (solutionsList[j].fitness > bestSol.fitness && !newSolutionsList.Contains(solutionsList[i]))
                     {
-                        bestSolution = childSolutions[i];
-                        bestFit = childFitneses[j];
+                        bestSol = solutionsList[j];
                     }
                 }
 
-                newFitneses[i] = bestFit;
-                newSolutions[i] = bestSolution;
+                //Add Best Solution to list
+                newSolutionsList.Add(new Gen(bestSol.weights, bestSol.fitness));
             }
 
-            solutions = newSolutions;
-            fitneses = newFitneses;
+            solutionsList = newSolutionsList;
 
-            //////////
-            printSolution(solutions[0]);
+            bestSolution = new Gen(solutionsList[0].weights, solutionsList[0].fitness);
 
-            double bestNewFitness = -1;
-            double[] bestNewSolution = null;
-            for (int i = 0; i < populationSize; i++)
-            {
-                if (fitneses[i] > bestNewFitness)
-                {
-                    bestNewFitness = fitneses[i];
-                    bestNewSolution = solutions[i];
-                }
-            }
-
-            bestFitness = bestNewFitness;
-            bestSolution = bestNewSolution;
-
-            Debug.Log("Best Fitness = " + bestFitness);
+            Debug.Log("Best Fitness = " + bestSolution.fitness);
+            Debug.Log("Best Solution = " + bestSolution.weights);
            
             //Repeat until the termintion criterion is met
-        } while (targetFitness > bestFitness);
+        } while (targetFitness > bestSolution.fitness);
         
-        printSolution(bestSolution);
+        Debug.Log("Done");
+        printSolution(bestSolution.weights);
     }
 
-    IEnumerator RunGeneration()
-    {
+    IEnumerator runGeneration(List<Gen> generation) {
+        
         for (int i = 0; i < populationSize; i++)
         {
-            GenPrefabPopulation[i] = Instantiate(GenPrefab, Vector3.up, Quaternion.identity);
-            GenPrefabPopulation[i].SetActive(false);
-            GenPrefabPopulation[i].GetComponent<BotController>().gen.setWeights(childSolutions[i]);
+            prefabList[i] = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            prefabList[i].SetActive(false);
+            prefabList[i].GetComponent<BotController>().gen = generation[i];
         }
 
         for (int i = 0; i < populationSize; i++)
         {
-            GenPrefabPopulation[i].SetActive(true);
+            prefabList[i].SetActive(true);
         }
 
         yield return new WaitForSeconds(generationTime);
 
         for (int i = 0; i < populationSize; i++)
         {
-            //Get fitnesses
-            childFitneses[i] = GenPrefabPopulation[i].GetComponent<BotController>().gen.getFitness();
-            Destroy(GenPrefabPopulation[i]);
-
-            //Clean up Scene
-            GameObject MotorSphere = FindObjectsOfType<Rigidbody>()[i].gameObject;
-            if (MotorSphere.name == "MotorSphere")
-            {
-                Destroy(MotorSphere);
-            }
+            Destroy(prefabList[i].GetComponent<BotController>().sphereRB.gameObject);
+            Destroy(prefabList[i]);
         }
     }
 }
