@@ -633,6 +633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3
   nextCP: {fileID: 1459433211}
+  prevCP: {fileID: 845250787}
   CPBuffer: []
 --- !u!1001 &735043253
 PrefabInstance:
@@ -738,6 +739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   nextCP: {fileID: 576694993}
+  prevCP: {fileID: 1600218528}
   CPBuffer: []
 --- !u!54 &845250788
 Rigidbody:
@@ -864,6 +866,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 5
   nextCP: {fileID: 5638978367416886991}
+  prevCP: {fileID: 1459433211}
   CPBuffer: []
 --- !u!54 &991699951
 Rigidbody:
@@ -1112,9 +1115,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GenPrefab: {fileID: 8973822035984552081, guid: 976bf41c23c7f6144b8ff0127da47921,
     type: 3}
-  populationSize: 40
+  populationSize: 20
   generationTime: 30
-  targetFitness: 14
+  targetFitness: 16
   mutationRate: 0.01
 --- !u!1 &1219360486
 GameObject:
@@ -1535,6 +1538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 4
   nextCP: {fileID: 991699950}
+  prevCP: {fileID: 576694993}
   CPBuffer: []
 --- !u!1 &1461369606
 GameObject:
@@ -1725,6 +1729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   nextCP: {fileID: 845250787}
+  prevCP: {fileID: 5638978367416886991}
   CPBuffer: []
 --- !u!1 &1745787538
 GameObject:
@@ -2013,4 +2018,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   nextCP: {fileID: 1600218528}
+  prevCP: {fileID: 0}
   CPBuffer: []
