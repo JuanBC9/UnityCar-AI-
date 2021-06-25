@@ -25,7 +25,7 @@ public class GeneticAlgorithm : MonoBehaviour
         prefabList = new List<GameObject>(populationSize);
         for (int i = 0; i < populationSize; i++)
         {
-            prefabList.Add(new GameObject());
+            prefabList.Add(null);
         }
         
         solutionsList = new List<Gen>(populationSize);
@@ -65,7 +65,7 @@ public class GeneticAlgorithm : MonoBehaviour
         return ret;
     }
 
-    private void printSolution(double[] sol)
+    private string SolutionToString(double[] sol)
     {
         string str = "";
 
@@ -74,7 +74,7 @@ public class GeneticAlgorithm : MonoBehaviour
             str += sol[i] + ", ";
         }
 
-        Debug.Log(str);
+        return str;
     }
 
     IEnumerator GeneticAlg()
@@ -191,21 +191,17 @@ public class GeneticAlgorithm : MonoBehaviour
         } while (targetFitness > bestSolution.fitness);
         
         Debug.Log("Done");
-        printSolution(bestSolution.weights);
+        Debug.Log(SolutionToString(bestSolution.weights));
     }
 
     IEnumerator runGeneration(List<Gen> generation) {
-        
-        for (int i = 0; i < populationSize; i++)
-        {
-            prefabList[i] = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            prefabList[i].SetActive(false);
-            prefabList[i].GetComponent<BotController>().gen = generation[i];
-        }
 
         for (int i = 0; i < populationSize; i++)
         {
-            prefabList[i].SetActive(true);
+            prefabList[i] = Instantiate(prefab, Vector3.up, Quaternion.identity);
+            prefabList[i].GetComponent<BotController>().gen = generation[i];
+
+            Debug.Log(SolutionToString(prefabList[i].GetComponent<BotController>().gen.weights));
         }
 
         yield return new WaitForSeconds(generationTime);
@@ -214,6 +210,11 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             Destroy(prefabList[i].GetComponent<BotController>().sphereRB.gameObject);
             Destroy(prefabList[i]);
+        }
+
+        foreach (Gen gen in generation)
+        {
+            Debug.Log(gen.fitness);
         }
     }
 }

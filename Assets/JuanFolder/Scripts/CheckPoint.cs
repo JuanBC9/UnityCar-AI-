@@ -17,14 +17,17 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag.Equals("Car") && !CPBuffer.Contains(other.gameObject) && hasPassedPreviousCP(other.gameObject))
+        if (other.gameObject.tag.Equals("Car"))
         {
-            CPBuffer.Add(other.gameObject);
-            other.gameObject.GetComponent<Gen>().addCP();
-
-            if (nextCP.id == 0)
+            if (!CPBuffer.Contains(other.gameObject) && hasPassedPreviousCP(other.gameObject))
             {
-                nextLapSignal(other.gameObject);
+                CPBuffer.Add(other.gameObject);
+                other.gameObject.GetComponent<MotorSphereScript>().controller.gen.addFitness(1);
+
+                if (nextCP.id == 0)
+                {
+                    nextLapSignal(other.gameObject);
+                }
             }
         }
     }
@@ -40,11 +43,11 @@ public class CheckPoint : MonoBehaviour
 
     private bool hasPassedPreviousCP(GameObject car)
     {
-        if (id == 0 && CPBuffer.Contains(car))
+        if (id == 0)
         {
             return true;
         }
 
-        return (prevCP.hasPassedPreviousCP(car) && CPBuffer.Contains(car));
+        return prevCP.CPBuffer.Contains(car);
     }
 }

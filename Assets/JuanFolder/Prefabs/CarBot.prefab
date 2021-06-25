@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8973822035391982974}
   - component: {fileID: 8973822035391982975}
   - component: {fileID: 8973822035391982960}
+  - component: {fileID: 4083280120290256386}
   m_Layer: 9
   m_Name: MotorSphere
   m_TagString: Car
@@ -110,6 +111,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &4083280120290256386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8973822035391982961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db183489d5e78b09be7fa2a9200d33a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 8973822035984552094}
 --- !u!1 &8973822035984552081
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +192,7 @@ GameObject:
   - component: {fileID: 8973822037202965458}
   m_Layer: 9
   m_Name: Sensors
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
