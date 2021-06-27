@@ -33,17 +33,19 @@ public class GeneticAlgorithm : MonoBehaviour
         childSolutionsList = new List<Gen>(populationSize);
         for (int i = 0; i < populationSize; i++)
         {
-            childSolutionsList.Add(new Gen(new double[solutionSize]));
+            childSolutionsList.Add(new Gen(new double[solutionSize], "CS"+i));
         }
 
-        bestSolution = new Gen(new double[solutionSize]);
+        bestSolution = new Gen(new double[solutionSize], "");
 
         StartCoroutine("GeneticAlg");
     }
 
-    private Gen[] getBestParents(List<Gen> gens)
+    private List<Gen> getBestParents(List<Gen> gens)
     {
-        Gen[] ret = new Gen[2];
+        List<Gen> ret = new List<Gen>(2);
+        ret.Add(null);
+        ret.Add(null);
 
         double bestFitness = Mathf.NegativeInfinity;
         double bestFitness_2 = Mathf.NegativeInfinity;
@@ -55,7 +57,12 @@ public class GeneticAlgorithm : MonoBehaviour
                 bestFitness = gens[i].fitness;
                 ret[0] = gens[i];
             
-            } else if (gens[i].fitness >= bestFitness_2 && gens[i] != ret[0])
+            }
+        }
+
+        for (int i = 0; i < populationSize; i++)
+        {
+            if (gens[i].fitness >= bestFitness_2 && !ret.Contains(gens[i]))
             {
                 bestFitness_2 = gens[i].fitness;
                 ret[1] = gens[i];
@@ -93,7 +100,7 @@ public class GeneticAlgorithm : MonoBehaviour
             }
 
             //Asign Random Solution to Gen
-            solutionsList.Add(new Gen(random));
+            solutionsList.Add(new Gen(random, "S"+i));
         }
 
         Debug.Log("Testing Solutions...");
@@ -103,7 +110,7 @@ public class GeneticAlgorithm : MonoBehaviour
         do
         {
             //Select Parents
-            Gen[] bestParents = getBestParents(solutionsList);
+            List<Gen> bestParents = getBestParents(solutionsList);
 
             Debug.Log("Creating Child Solutions...");
             //Create child solutions
@@ -146,46 +153,69 @@ public class GeneticAlgorithm : MonoBehaviour
                 }
 
                 //Asign Child solution to Gen
-                childSolutionsList[i] = new Gen(childSol);
+                childSolutionsList[i] = new Gen(childSol, "CS"+i);
             }
             
             Debug.Log("Evaluating Child Solutions...");
             //Evaluate Children
-            yield return StartCoroutine(runGeneration(childSolutionsList)); 
+            yield return StartCoroutine(runGeneration(childSolutionsList));
+
+
+            Debug.Log("Solutions:");
+            for (int i = 0; i < populationSize; i++)
+            {
+                Debug.Log(SolutionToString(solutionsList[i].weights) + "Fitness: " + solutionsList[i].fitness);
+            }
+
+            Debug.Log("Child Solutions:");
+            for (int i = 0; i < populationSize; i++)
+            {
+                Debug.Log(SolutionToString(childSolutionsList[i].weights) + "Fitness: " + childSolutionsList[i].fitness);
+            }
 
             Debug.Log("Creating New Solutions...");
             //Swap some of the existing solutions with some of the better children
             List<Gen> newSolutionsList = new List<Gen>(populationSize);            
             Gen bestSol;
-            
+            List<string> addedSolutions = new List<string>();
+
             for (int i = 0; i < populationSize; i++)
             {
                 //Get Best Solution
-                bestSol = new Gen(new double[solutionSize]);
+                bestSol = new Gen(new double[solutionSize], "");
 
                 for (int j = 0; j < populationSize; j++)
                 {
-                    if (childSolutionsList[j].fitness > bestSol.fitness && !newSolutionsList.Contains(childSolutionsList[j]))
+                    if (childSolutionsList[j].fitness >= bestSol.fitness && !addedSolutions.Contains(childSolutionsList[j].id))
                     {
-                        bestSol = childSolutionsList[j];
+                        bestSol.weights = childSolutionsList[j].weights;
+                        bestSol.fitness = childSolutionsList[j].fitness;
+                        bestSol.id = childSolutionsList[j].id;
                     }
+                }
 
-                    if (solutionsList[j].fitness > bestSol.fitness && !newSolutionsList.Contains(solutionsList[i]))
+                for (int j = 0; j < populationSize; j++)
+                {
+                    if (solutionsList[j].fitness >= bestSol.fitness && !addedSolutions.Contains(solutionsList[j].id))
                     {
-                        bestSol = solutionsList[j];
+                        bestSol.weights = solutionsList[j].weights;
+                        bestSol.fitness = solutionsList[j].fitness;
+                        bestSol.id = solutionsList[j].id;
                     }
                 }
 
                 //Add Best Solution to list
-                newSolutionsList.Add(new Gen(bestSol.weights, bestSol.fitness));
+                addedSolutions.Add(bestSol.id);
+                newSolutionsList.Add(new Gen(bestSol.weights, "S"+i, bestSol.fitness));
+                Debug.Log(SolutionToString(newSolutionsList[i].weights));
             }
 
             solutionsList = newSolutionsList;
 
-            bestSolution = new Gen(solutionsList[0].weights, solutionsList[0].fitness);
+            bestSolution = new Gen(solutionsList[0].weights, "", solutionsList[0].fitness);
 
-            Debug.Log("Best Fitness = " + bestSolution.fitness);
-            Debug.Log("Best Solution = " + bestSolution.weights);
+            Debug.Log("\nBest Fitness = " + bestSolution.fitness);
+            Debug.Log("Best Solution = " + SolutionToString(bestSolution.weights));
            
             //Repeat until the termintion criterion is met
         } while (targetFitness > bestSolution.fitness);
@@ -200,21 +230,15 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             prefabList[i] = Instantiate(prefab, Vector3.up, Quaternion.identity);
             prefabList[i].GetComponent<BotController>().gen = generation[i];
-
-            Debug.Log(SolutionToString(prefabList[i].GetComponent<BotController>().gen.weights));
         }
 
         yield return new WaitForSeconds(generationTime);
 
         for (int i = 0; i < populationSize; i++)
         {
+            generation[i] = prefabList[i].GetComponent<BotController>().gen;
             Destroy(prefabList[i].GetComponent<BotController>().sphereRB.gameObject);
             Destroy(prefabList[i]);
-        }
-
-        foreach (Gen gen in generation)
-        {
-            Debug.Log(gen.fitness);
         }
     }
 }

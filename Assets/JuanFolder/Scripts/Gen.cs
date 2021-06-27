@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class Gen
 {
+    public string id;
     public double[] weights;
     public double fitness;
 
-    public Gen(double[] solucion) {
+    public Gen(double[] solucion, string nId) {
 
+        id = nId;
         weights = (double[]) solucion.Clone();
         fitness = Mathf.NegativeInfinity;
     }
 
-    public Gen(double[] solucion, double newFitness) {
+    public Gen(double[] solucion, string nId, double newFitness) {
 
+        id = nId;
         weights = (double[]) solucion.Clone();
         fitness = newFitness;
     }
@@ -50,6 +53,12 @@ public class Gen
 
     public void addFitness(int value)
     {
-        fitness+=value;
+        if (fitness == Mathf.NegativeInfinity)
+        {
+            fitness = value;
+        } else
+        {
+            fitness += value;
+        }
     }
 }
