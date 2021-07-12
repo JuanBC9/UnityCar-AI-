@@ -307,7 +307,7 @@ MonoBehaviour:
   groundDrag: 5
   fwdSpeed: 150
   revSpeed: 50
-  turnSpeed: 150
+  turnSpeed: 200
   GroundLayer:
     serializedVersion: 2
     m_Bits: 256

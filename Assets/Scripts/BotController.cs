@@ -34,7 +34,7 @@ public class BotController : MonoBehaviour
 
     void Update()
     {
-        moveInput = 1;
+        moveInput = (float)gen.CalculateAcc(sensors.getData());
         turnInput = (float)gen.CalculateInput(sensors.getData());
         moveInput *= moveInput > 0 ? fwdSpeed : revSpeed;
 

@@ -29,7 +29,7 @@ public class Gen
         int dataIndex = 0;
         int currentDegree = 1;
 
-        for (int i = 0; i < weights.Length - 1; i++)
+        for (int i = 0; i < (weights.Length/2) - 1; i++)
         {
             pred += weights[i] * Math.Pow(data[dataIndex], currentDegree);
 
@@ -41,7 +41,32 @@ public class Gen
             }
         }
 
-        pred += weights[weights.Length-1];
+        pred += weights[(weights.Length/2)-1];
+
+        
+
+        return pred;
+    }
+
+    public double CalculateAcc(double[] data)
+    {
+        double pred = 0;
+        int dataIndex = 0;
+        int currentDegree = 1;
+
+        for (int i = (weights.Length / 2); i < weights.Length - 1; i++)
+        {
+            pred += weights[i] * Math.Pow(data[dataIndex], currentDegree);
+
+            dataIndex++;
+            if (dataIndex == 15)
+            {
+                dataIndex = 0;
+                currentDegree++;
+            }
+        }
+
+        pred += weights[weights.Length - 1];
 
         return pred;
     }

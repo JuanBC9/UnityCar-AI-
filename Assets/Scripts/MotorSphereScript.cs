@@ -10,7 +10,9 @@ public class MotorSphereScript : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Wall"))
         {
-            controller.gen.addFitness(-1);
+            controller.gen.addFitness(-2);
+            Vector3 dir = controller.gameObject.transform.forward * -50;
+            this.GetComponent<Rigidbody>().AddForce(dir, ForceMode.Impulse);
         }
     }
 }
